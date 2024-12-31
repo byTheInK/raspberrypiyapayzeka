@@ -1,0 +1,8 @@
+numpy
+wavio
+scipy
+groq
+gtts
+pydub
+sounddevice
+audioop-lts
