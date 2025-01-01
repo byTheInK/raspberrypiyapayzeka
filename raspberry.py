@@ -26,12 +26,16 @@ voiceEngine = voice(GROQ_API_KEY)
 print("VOICE LOADED")
 print("WINDOWS" if WINDOWS else "LINUX", "İŞLETİM SİSTEMİNDE ÇALIŞIYOR")
 
+def kill_mpg123():
+    try:
+        run(["pkill", "mpg123"], check=True, stderr=DEVNULL)
+    except CalledProcessError:
+        print("mpg123 kapatılmış bu nedenle bulunamadı")
+        return
+
 def kill_vlc():
     try:
-        if WINDOWS:
-            run(["powershell", "-Command", "Stop-Process -Name 'vlc' -Force"], shell=True, check=True, stderr=DEVNULL)
-        else:
-            run(["pkill", "vlc"], check=True, stderr=DEVNULL)
+        run(["powershell", "-Command", "Stop-Process -Name 'vlc' -Force"], shell=True, check=True, stderr=DEVNULL)
     except CalledProcessError:
         print("VLC kapatılmış bu nedenle bulunamadı")
         return
@@ -68,13 +72,13 @@ def mainVoice():
         Edited_R = re.sub(r'[^\w\s,.!?]', '', response)
 
         voiceEngine.textToSpeech(Edited_R, "SOUNDS\\tts.mp3")
-        os.system("start SOUNDS\\tts.mp3" if WINDOWS else "vlc-wrapper SOUNDS/tts.mp3")
+        os.system("start SOUNDS\\tts.mp3" if WINDOWS else "")
         print("CEVAP:\n", response)
 
         print("SORU:\n", question)
 
         sleep(voiceEngine.get_length("SOUNDS\\tts.mp3"))
-        kill_vlc()
+        kill_vlc() if WINDOWS else kill_mpg123()
 
 if __name__ == "__main__":
     mainVoice()

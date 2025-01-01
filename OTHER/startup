@@ -1,5 +1,4 @@
 #!/bin/bash
-directory=""
+directory="/home/RaspberryPIYapayZeka"
 cd $directory
-echo "Current directory: $(pwd)"
 source linuxrun.sh
