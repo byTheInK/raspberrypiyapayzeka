@@ -68,7 +68,7 @@ def mainVoice():
         Edited_R = re.sub(r'[^\w\s,.!?]', '', response)
 
         voiceEngine.textToSpeech(Edited_R, "SOUNDS\\tts.mp3")
-        os.system("start SOUNDS\\tts.mp3" if WINDOWS else "mpg123 SOUNDS/tts.mp3")
+        #os.system("start SOUNDS\\tts.mp3" if WINDOWS else "mpg123 SOUNDS/tts.mp3")
         print("CEVAP:\n", response)
 
         print("SORU:\n", question)
