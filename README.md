@@ -68,3 +68,15 @@ cd $env:APPDATA
 cd RaspberryPIYapayZeka
 .\run.ps1
 ```
+
+# Sistem başlatıldığında çalıştırma
+
+## Bash (Linux)
+İlk olarak `crontab -e` yazın. Eğer burada bir "1-2-3-4-5-6-7" gibi seçeneklerin bulunduğu bir yazı gelirse burada `2`'yi seçin. Bir metin dosyası önünüze çıktıktan sonra burada en aşağıya, satırın başında `#` sembolü olmayan bir yere inin ve buraya `@reboot /home/RaspberryPIYapayZeka/OTHER/startup.sh` yazın. Bunu yazdıktan sonra `Control` ve `x` tuşlarına basın, `y` tuşuna basın ve devam edin.
+
+## Powershell (Windows)
+Powershell'de işlem çok basit. Sadece Powershell'i ayönetici olarak çalıştırın ve aşağıdaki kodu yapıştırın.
+```powershell
+$env:APPDATA
+Move-Item -Path ".\RaspberryPIYapayZeka\OTHER\startup.ps1" -Destination $([Environment]::GetFolderPath('Startup'))
+```
