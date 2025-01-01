@@ -1,3 +1,3 @@
 #!/bin/bash
 source venv/bin/activate
-./venv/bin/python3 raspberry.py
+sudo ./venv/bin/python3 raspberry.py
