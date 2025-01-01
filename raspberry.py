@@ -67,7 +67,7 @@ def mainVoice():
         print("Ses Kaydı Bitti")
 
         question = voiceEngine.speechToText("SOUNDS\\tts.wav" if WINDOWS else "SOUNDS/tts.wav")
-        os.system(CLEAR_PREFIX)
+        #os.system(CLEAR_PREFIX)
 
         if question == " Altyazı M.K.":
             question = ""
@@ -78,7 +78,7 @@ def mainVoice():
         Edited_R = re.sub(r'[^\w\s,.!?]', '', response)
         
         voiceEngine.textToSpeech(Edited_R, "SOUNDS\\tts.mp3")
-        os.system("start SOUNDS\\tts.mp3")
+        os.system("start SOUNDS\\tts.mp3" if WINDOWS else "cvlc SOUNDS/tts.mp3")
         print("CEVAP:\n",response) 
 
         print("SORU:\n", question)
