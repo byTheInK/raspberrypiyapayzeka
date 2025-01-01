@@ -39,16 +39,18 @@ class voice():
         audio = AudioSegment.from_mp3(filename)
         return (len(audio)/1000)
 
-    def record(self, freq: int = 44100, duration: int = 5, volume: float = 5.5, ek_mesajlar: bool = True) -> str:
-        if ek_mesajlar:
-            print("Ses kaydına başlandı.\n")
-        recording = sd.rec(int(duration * freq), samplerate=freq, channels=1)
-        
+    def record(self, freq: int = 44100, duration: int = 5, volume: float = 5.5) -> str:
+        print("Recording started...")
+        recording = sd.rec(int(duration * freq), samplerate=freq, channels=2)
         sd.wait()
-        amplified_recording = np_clip(recording * volume, -1, 1)
-        wv.write("SOUNDS\\tts.wav", amplified_recording, freq, sampwidth=2)
+        print("Recording finished")
 
-        return "SOUNDS\\tts.wav"
+        amplified_recording = np_clip(recording * volume, -1, 1)
+        output_path = os.path.join("SOUNDS", "tts.wav")
+        wv.write(output_path, amplified_recording, freq, sampwidth=2)
+        print(f"Recording saved to {output_path}")
+
+        return output_path
 
 if __name__ == "__main__":
     with open("API.json") as f: 

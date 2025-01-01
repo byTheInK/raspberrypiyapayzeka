@@ -86,23 +86,4 @@ def mainVoice():
         sleep(voiceEngine.get_length("SOUNDS\\tts.mp3"))
         kill_vlc()
 
-
-"""
-def mainText():
-    while True:
-        question = input()
-
-        os.system(CLEAR_PREFIX)
-
-        response = textEngine.createResponse(PRE+question,"user")
-        Edited_R = re.sub(r'[^\w\s,.!?]', '', response)
-
-        print(response)
-
-        voiceEngine.textToSpeech(Edited_R,"SOUNDS\\tts.mp3")
-        os.system("start SOUNDS\\tts.mp3")
-        
-        sleep(voiceEngine.get_length("SOUNDS\\tts.mp3"))
-        kill_vlc()
-"""
 mainVoice()
