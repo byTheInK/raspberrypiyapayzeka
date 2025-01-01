@@ -5,32 +5,37 @@ from time import sleep
 from subprocess import CalledProcessError, DEVNULL, run
 import MODULES.AI as AI
 from MODULES.VOICE import voice
+import distro
 
 WINDOWS = os.name == "nt"
 CLEAR_PREFIX = "cls" if WINDOWS else "clear"
 
-SES_KAYIT_KAYIT_SURESI: int = 6
-SES_KAZANC_BOYUTU: int = 10
-SES_FREKANS_DEGERI: int = 44100
-BASLANGICTA_HAFIZAYI_SIL: bool = True
-HAFIZAYI_AKILDA_TUTMA_SINIRI: bool = 2000
-SABIT_DEGERLER: dict = {"Language": "Türkçe"}
+SES_KAYIT_KAYIT_SURESI: int = 6 # Saniye biçiminde bir tam sayı giriniz VARSAYILAN = 6
+SES_KAZANC_BOYUTU: int = 10 # Sesin ne kadar yükseleceğini belirler VARSAYILAN = 10
+SES_FREKANS_DEGERI: int = 44100 # Sesin frekansını belirler VARSAYILAN DEĞER = 44100
+BASLANGICTA_HAFIZAYI_SIL: bool = False # Kod başladığında hafızayı siler veya silmez(False=hayır,True=evet) VARSAYILAN = False
+HAFIZAYI_AKILDA_TUTMA_SINIRI: bool = 2000 # Aklında en son kaç mesajı tutabileceğini ayarlar VARSAYILAN = 20
+HATA_AYIKLAMA: bool = False # Hata ayıklama modunu açar veya kapatır VARSAYILAN = False
+SABIT_DEGERLER: dict = {"Language":"Türkçe"} # Buraya yapay zekanın asla unutmaması gereken değerleri yazınız
 
+# yedek.json dosyasının üzerinde yazılır
+# > # < ifadesi olduğu satırı yorum yapar yani koda etki etmez.
+# BASLANGICTA_HAFIZAYI_SIL ifadesini açarsan OTHER klasöründe yedek.json dosyasının içerisinde verilerini tekrar bulabilirsin
+# Hafızasında ne kadar fazla mesaj tutarsa o kadar yavaş yanıt verir ve alan kaplar
+# Frekans değeriyle oynarsanız yapay zeka sesi anlamayabilir bu nedenle 44100 değerinde tutulması önerilir
 with open("API", "r") as file:
     GROQ_API_KEY = file.read()
     print("API KEY LOADED")
 
 textEngine = AI.text(GROQ_API_KEY, "memory.json", SABIT_DEGERLER, HAFIZAYI_AKILDA_TUTMA_SINIRI)
-print("TEXT LOADED")
 voiceEngine = voice(GROQ_API_KEY)
-print("VOICE LOADED")
-print("WINDOWS" if WINDOWS else "LINUX", "İŞLETİM SİSTEMİNDE ÇALIŞIYOR")
+print("Windows" if WINDOWS else "Linux: {}".format(distro.name()))
 
-def kill_mpg123():
+def kill_vlc():
     try:
-        run(["pkill", "mpg123"], check=True, stderr=DEVNULL)
+        run(["pkill", "vlc"], check=True, stderr=DEVNULL)
     except CalledProcessError:
-        print("mpg123 kapatılmış bu nedenle bulunamadı")
+        print("vlc kapatılmış bu nedenle bulunamadı")
         return
 
 def mainVoice():
@@ -50,28 +55,28 @@ def mainVoice():
                 memory_file.truncate()
 
     while True:
-        input()
         print("Ses Kaydı Başladı")
         voiceEngine.record(freq=SES_FREKANS_DEGERI, duration=SES_KAYIT_KAYIT_SURESI, volume=SES_KAZANC_BOYUTU)
         print("Ses Kaydı Bitti")
 
         question = voiceEngine.speechToText("SOUNDS\\tts.wav" if WINDOWS else "SOUNDS/tts.wav")
-        print(f"Recognized question: {question}")
 
         if question == " Altyazı M.K.":
             question = ""
+
+        print(f"Algılanan: {question}")
 
         response = textEngine.createResponseWithData(question, "user")
         Edited_R = re.sub(r'[^\w\s,.!?]', '', response)
 
         voiceEngine.textToSpeech(Edited_R, "SOUNDS\\tts.mp3")
-        os.system("start SOUNDS\\tts.mp3" if WINDOWS else "mpg123 SOUNDS/tts.mp3")
+        os.system("start SOUNDS\\tts.mp3" if WINDOWS else "vlc-wrapper --play-and-exit SOUNDS/tts.mp3")
         print("CEVAP:\n", response)
 
         print("SORU:\n", question)
 
         sleep(voiceEngine.get_length("SOUNDS\\tts.mp3"))
-        kill_mpg123()
+        kill_vlc()
 
 if __name__ == "__main__":
     mainVoice()
