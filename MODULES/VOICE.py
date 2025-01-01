@@ -1,22 +1,18 @@
 import os
-from groq import Groq
+import sounddevice as sd
+import wavio as wv
+from numpy import clip as np_clip
 from gtts import gTTS
 from pydub import AudioSegment
-import sounddevice as sd
-from scipy.io.wavfile import write
-import wavio as wv
-from json import load
-from numpy import clip as np_clip
+from groq import Groq
 
 class voice():
-    def __init__(self,api_key):
-        
+    def __init__(self, api_key):
         self.key = api_key
         self.client = Groq(api_key=api_key)
-    
-    def speechToText(self,filename: str, language: str = "tr"):
-        with open(filename, "rb") as file:
 
+    def speechToText(self, filename: str, language: str = "tr"):
+        with open(filename, "rb") as file:
             transcription = self.client.audio.transcriptions.create(
                 file=(filename, file.read()),
                 model="whisper-large-v3",
@@ -24,7 +20,6 @@ class voice():
                 language="tr",
                 temperature=0.0 
             )
-
             return transcription.text
 
     def textToSpeech(self, message: str, filename: str) -> None:
@@ -34,17 +29,17 @@ class voice():
             slow=False
         ).save(filename)
 
-
-    def get_length(self,filename: str) -> int:
+    def get_length(self, filename: str) -> int:
         audio = AudioSegment.from_mp3(filename)
-        return (len(audio)/1000)
+        return (len(audio) / 1000)
 
     def record(self, freq: int = 44100, duration: int = 5, volume: float = 5.5) -> str:
         print("Recording started...")
-        recording = sd.rec(int(duration * freq), samplerate=freq, channels=2)
-        sd.wait()
+        recording = sd.rec(int(duration * freq), samplerate=freq, channels=1)  # Change channels to 1
+        sd.wait()  # Wait until recording is finished
         print("Recording finished")
 
+        # Amplify the recording
         amplified_recording = np_clip(recording * volume, -1, 1)
         output_path = os.path.join("SOUNDS", "tts.wav")
         wv.write(output_path, amplified_recording, freq, sampwidth=2)
