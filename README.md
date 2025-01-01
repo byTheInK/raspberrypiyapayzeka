@@ -3,8 +3,8 @@ Uyarı: API herkese açıktır fakat ileride değişebilir.
 Kurmak için bu komudu yazınız:
 ```bash
 cd /home
-rm -rf ./RaspberryPIYapayZeka/
-git clone https://github.com/byTheInK/RaspberryPIYapayZeka.git
+sudo rm -rf ./RaspberryPIYapayZeka/
+sudo git clone https://github.com/byTheInK/RaspberryPIYapayZeka.git
 cd RaspberryPIYapayZeka
 source fullsetup.sh
 ```
