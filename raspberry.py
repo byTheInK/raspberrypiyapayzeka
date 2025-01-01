@@ -31,6 +31,7 @@ textEngine = AI.text(GROQ_API_KEY, "memory.json", SABIT_DEGERLER, HAFIZAYI_AKILD
 print("TEXT LOADED")
 voiceEngine = voice(GROQ_API_KEY)
 print("VOICE LOADED")
+print("WINDOWS" if WINDOWS else "LINUX", "İŞLETİM SİSTEMİNDE ÇALIŞIYOR")
 
 def kill_vlc():
     try:
@@ -64,7 +65,7 @@ def mainVoice():
         print("Ses Kaydı Başladı")
         voiceEngine.record(freq=SES_FREKANS_DEGERI,duration=SES_KAYIT_KAYIT_SURESI,volume=SES_KAZANC_BOYUTU)
         print("Ses Kaydı Bitti")
-        
+
         question = voiceEngine.speechToText("SOUNDS\\tts.wav" if WINDOWS else "SOUNDS/tts.wav")
         os.system(CLEAR_PREFIX)
 
