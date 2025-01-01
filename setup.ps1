@@ -5,7 +5,7 @@ echo "Sanal ortam oluşturuldu."
 echo "Paketler yükleniyor..."
 Start-Sleep -Seconds 1
 
-pip3 install -r requirements.txt
+.\Venv\Scripts\pip install -r requirements.txt
 echo "Paketler yüklendi."
 
 echo "Kurulum tamamlandı."
