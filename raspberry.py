@@ -33,13 +33,6 @@ def kill_mpg123():
         print("mpg123 kapatılmış bu nedenle bulunamadı")
         return
 
-def kill_vlc():
-    try:
-        run(["powershell", "-Command", "Stop-Process -Name 'vlc' -Force"], shell=True, check=True, stderr=DEVNULL)
-    except CalledProcessError:
-        print("VLC kapatılmış bu nedenle bulunamadı")
-        return
-
 def mainVoice():
     print("Başlangıçta hafızayı sil:", BASLANGICTA_HAFIZAYI_SIL)
     if BASLANGICTA_HAFIZAYI_SIL:
@@ -72,13 +65,13 @@ def mainVoice():
         Edited_R = re.sub(r'[^\w\s,.!?]', '', response)
 
         voiceEngine.textToSpeech(Edited_R, "SOUNDS\\tts.mp3")
-        os.system("start SOUNDS\\tts.mp3" if WINDOWS else "")
+        os.system("start SOUNDS\\tts.mp3" if WINDOWS else "mpg123 SOUNDS/tts.mp3")
         print("CEVAP:\n", response)
 
         print("SORU:\n", question)
 
         sleep(voiceEngine.get_length("SOUNDS\\tts.mp3"))
-        kill_vlc() if WINDOWS else kill_mpg123()
+        kill_mpg123()
 
 if __name__ == "__main__":
     mainVoice()
