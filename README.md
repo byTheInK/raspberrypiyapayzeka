@@ -44,11 +44,10 @@ Powershell, Windows işletim sisteminin iki ana komut sisteminden birisidir. Pow
 
 Kurulum:
 
-İlk olarak [Chocolatey](https://github.com/chocolatey/choco/releases/latest) programını indiriniz, sonra Powershell'i yönetici olarak açınız.
+İlk olarak Python, Git ve Ffmpeg programlarını indirin. Sonra Powershell'i açın.
 
 ```bash
 cd $env:APPDATA
-choco install git
 git clone RaspberryPIYapayZeka.git
 cd RaspberryPIYapayZeka
 .\setup.ps1
@@ -57,7 +56,6 @@ cd RaspberryPIYapayZeka
 Güncelleme:
 ```bash
 cd $env:APPDATA
-choco install git
 rm -Force ".\RaspberryPIYapayZeka"
 git clone RaspberryPIYapayZeka.git
 cd RaspberryPIYapayZeka
@@ -67,9 +65,6 @@ cd RaspberryPIYapayZeka
 Calıştırma:
 ```bash
 cd $env:APPDATA
-choco install git
-rm -Force ".\RaspberryPIYapayZeka"
-git clone RaspberryPIYapayZeka.git
 cd RaspberryPIYapayZeka
-.\setup.ps1
+.\run.ps1
 ```
