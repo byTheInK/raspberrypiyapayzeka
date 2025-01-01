@@ -14,7 +14,6 @@ SES_KAZANC_BOYUTU: int = 10 # Sesin ne kadar yükseleceğini belirler VARSAYILAN
 SES_FREKANS_DEGERI: int = 44100 # Sesin frekansını belirler VARSAYILAN DEĞER = 44100
 BASLANGICTA_HAFIZAYI_SIL: bool = True # Kod başladığında hafızayı siler veya silmez(False=hayır,True=evet) VARSAYILAN = False
 HAFIZAYI_AKILDA_TUTMA_SINIRI: bool = 2000 # Aklında en son kaç mesajı tutabileceğini ayarlar VARSAYILAN = 20
-EK_MESAJLAR: bool = True # Yapılan işlerin daha iyi algılanabilmesi veya hata ayıklamak için fazladan mesaj ekrana yazdırılır (kodun performansını etkilemez) VARSAYILAN = True
 SABIT_DEGERLER: dict = {"Language":"Türkçe"} # Buraya yapay zekanın asla unutmaması gereken değerleri yazınız
 
 # yedek.json dosyasının üzerinde yazılır
@@ -26,9 +25,12 @@ SABIT_DEGERLER: dict = {"Language":"Türkçe"} # Buraya yapay zekanın asla unut
 #*API KEY
 with open("API", "r") as file:
     GROQ_API_KEY = file.read()
+    print("API KEY LOADED")
     
 textEngine = AI.text(GROQ_API_KEY, "memory.json", SABIT_DEGERLER, HAFIZAYI_AKILDA_TUTMA_SINIRI)
+print("TEXT LOADED")
 voiceEngine = voice(GROQ_API_KEY)
+print("VOICE LOADED")
 
 def kill_vlc():
     try:
@@ -37,12 +39,12 @@ def kill_vlc():
         else:
             run(["pkill", "vlc"], check=True, stderr=DEVNULL)
     except CalledProcessError:
-        if EK_MESAJLAR:
-            print("VlC kapatılmış bu nedenle bulunamadı")
+        print("VlC kapatılmış bu nedenle bulunamadı")
         return
         
 
 def mainVoice():
+    print("Başlangıçta hafızayı sil:", BASLANGICTA_HAFIZAYI_SIL)
     if BASLANGICTA_HAFIZAYI_SIL:
         with open("memory.json", "r+") as memory_file:
             memory_file_content = memory_file.read().strip()
@@ -59,8 +61,10 @@ def mainVoice():
 
     while True:
         input()
+        print("Ses Kaydı Başladı")
         voiceEngine.record(freq=SES_FREKANS_DEGERI,duration=SES_KAYIT_KAYIT_SURESI,volume=SES_KAZANC_BOYUTU)
-
+        print("Ses Kaydı Bitti")
+        
         question = voiceEngine.speechToText("SOUNDS\\tts.wav" if WINDOWS else "SOUNDS/tts.wav")
         os.system(CLEAR_PREFIX)
 
@@ -74,10 +78,9 @@ def mainVoice():
         
         voiceEngine.textToSpeech(Edited_R, "SOUNDS\\tts.mp3")
         os.system("start SOUNDS\\tts.mp3")
-        print(response) 
-        
-        if EK_MESAJLAR: 
-            print(question)
+        print("CEVAP:\n",response) 
+
+        print("SORU:\n", question)
         
         sleep(voiceEngine.get_length("SOUNDS\\tts.mp3"))
         kill_vlc()
