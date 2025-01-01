@@ -2,7 +2,7 @@ import os
 import json
 import re
 from time import sleep
-from subprocess import CalledProcessError, DEVNULL, run
+from subprocess import DEVNULL, run
 import MODULES.AI as AI
 from MODULES.VOICE import voice
 import distro
@@ -25,21 +25,19 @@ SABIT_DEGERLER: dict = {"Language":"Türkçe"} # Buraya yapay zekanın asla unut
 # Frekans değeriyle oynarsanız yapay zeka sesi anlamayabilir bu nedenle 44100 değerinde tutulması önerilir
 with open("API", "r") as file:
     GROQ_API_KEY = file.read()
-    print("API KEY LOADED")
+    print("Yapay zeka kuruldu.")
 
 textEngine = AI.text(GROQ_API_KEY, "memory.json", SABIT_DEGERLER, HAFIZAYI_AKILDA_TUTMA_SINIRI)
 voiceEngine = voice(GROQ_API_KEY)
-print("Windows" if WINDOWS else "Linux: {}".format(distro.name()))
+print("OS =", "Windows" if WINDOWS else "Linux: {}".format(distro.name()))
 
 def kill_vlc():
-    try:
+    if WINDOWS:
+        run(["taskkill", "/F", "/IM", "vlc.exe"], check=True, stderr=DEVNULL)
+    else:
         run(["pkill", "vlc"], check=True, stderr=DEVNULL)
-    except CalledProcessError:
-        print("vlc kapatılmış bu nedenle bulunamadı")
-        return
 
 def mainVoice():
-    print("Başlangıçta hafızayı sil:", BASLANGICTA_HAFIZAYI_SIL)
     if BASLANGICTA_HAFIZAYI_SIL:
         with open("memory.json", "r+") as memory_file:
             memory_file_content = memory_file.read().strip()
