@@ -1,0 +1,5 @@
+#!/bin/bash
+directory=""
+cd $directory
+echo "Current directory: $(pwd)"
+source linuxrun.sh
