@@ -77,6 +77,6 @@ cd RaspberryPIYapayZeka
 ## Powershell (Windows)
 Powershell'de işlem çok basit. Sadece Powershell'i ayönetici olarak çalıştırın ve aşağıdaki kodu yapıştırın.
 ```powershell
-$env:APPDATA
+cd $env:APPDATA
 Move-Item -Path ".\RaspberryPIYapayZeka\OTHER\startup.ps1" -Destination $([Environment]::GetFolderPath('Startup'))
 ```
