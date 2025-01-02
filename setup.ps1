@@ -6,6 +6,7 @@ echo "Paketler yükleniyor..."
 Start-Sleep -Seconds 1
 
 .\Venv\Scripts\pip install -r requirements.txt
+.\Venv\Scripts\pip audioop-lts
 echo "Paketler yüklendi."
 
 echo "Kurulum tamamlandı."
