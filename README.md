@@ -83,6 +83,13 @@ cd RaspberryPIYapayZeka
 
 # Sistem başlatıldığında çalıştırma
 ## Bash (Linux)
+### Otomatik
+```bash
+cd ~/RaspberryPIYapayZeka
+source ./OTHER/setstart
+```
+
+### Manuel
 İlk olarak `crontab -e` yazın. Eğer burada bir "1-2-3-4-5-6-7" gibi seçeneklerin bulunduğu bir yazı gelirse burada `2`'yi seçin. Bir metin dosyası önünüze çıktıktan sonra burada en aşağıya, satırın başında `#` sembolü olmayan bir yere inin ve buraya `@reboot ~/RaspberryPIYapayZeka/OTHER/startup.sh` yazın. Bunu yazdıktan sonra `Control` ve `x` tuşlarına basın, `y` tuşuna basın ve devam edin.
 
 ## Powershell (Windows)

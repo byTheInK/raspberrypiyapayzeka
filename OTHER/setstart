@@ -1,0 +1,6 @@
+#!/bin/bash
+
+CRONTAB_PATH_VAR="@reboot \$HOME/RaspberryPIYapayZeka/OTHER/startup.sh"
+(crontab -l 2>/dev/null | grep -F "$CRONTAB_PATH_VAR") || (crontab -l 2>/dev/null; echo "$CRONTAB_PATH_VAR") | crontab -
+
+chmod +x $HOME/RaspberryPIYapayZeka/OTHER/startup.sh
