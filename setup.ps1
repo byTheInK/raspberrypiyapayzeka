@@ -1,6 +1,9 @@
 python -m venv Venv
 echo "Sanal ortam oluşturuldu."
 
+$sourcePath = "$env:LOCALAPPDATA\RaspberryPIYapayZeka"
+$destinationPath = ".\API"
+
 .\Venv\Scripts\Activate.ps1
 echo "Paketler yükleniyor..."
 Start-Sleep -Seconds 1
