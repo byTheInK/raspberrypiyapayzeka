@@ -11,6 +11,9 @@ sudo chmod u+s /usr/bin/vlc-wrapper
 echo "VLC ayarlandı."
 sleep 2
 
+
+sleep 2
+
 sudo python3 -m venv venv
 echo "Sanal ortam oluşturuldu."
 sleep 2
@@ -22,5 +25,13 @@ sleep 1
 sudo ./venv/bin/pip install -r requirements.txt
 echo "Paketler yüklendi."
 sleep 3
+
+SOURCE_PATH="$HOME/.config/RaspberryPIYapayZeka"
+DESTINATION_PATH="./API"
+
+cp "$SOURCE_PATH" "$DESTINATION_PATH"
+echo "Dosya kopyalandı."
+sleep 2
+
 echo "Kurulum tamamlandı."
 deactivate
