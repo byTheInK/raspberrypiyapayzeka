@@ -60,7 +60,7 @@ Set-Content -Path ".\RaspberryPIYapayZeka" -Value "API_ANAHTARINIZ"
 
 ```bash
 cd $env:APPDATA
-git clone RaspberryPIYapayZeka.git
+git clone https://github.com/byTheInK/RaspberryPIYapayZeka.git
 cd RaspberryPIYapayZeka
 .\setup.ps1
 ```
@@ -69,7 +69,7 @@ Güncelleme:
 ```bash
 cd $env:APPDATA
 rm -Force ".\RaspberryPIYapayZeka"
-git clone RaspberryPIYapayZeka.git
+git clone https://github.com/byTheInK/RaspberryPIYapayZeka.git
 cd RaspberryPIYapayZeka
 .\setup.ps1
 ```
