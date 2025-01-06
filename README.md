@@ -4,13 +4,6 @@ Bu yapay zeka Raspberry PI için tasarlanmıştır ve Google'ın Gemma modelini 
 - Mikrofon
 - Hoparlör
 
-# Gerekli yazılımlar (kurulum sırasında yüklenicek)
-- Python
-- Vlc
-- Portaudio
-- Alsa-Utils
-- Ffmpeg
-
 # Bash (Debian/Ubuntu)
 Bash çoğu Linux dağıtımında kullanılan varsayılan komut sistemidir. Debian, Ubuntu, Arch hatta Slackware bile bu komut sistemini kullanır fakat bu kurulum sadece Debian ve Ubuntu için geçerlidir. Ayrıca Wsl sayesinde kullanabilirsiniz ama bu projeyi Wsl aracılığıyla kullanamazsınız çünkü Wsl, ses girişlerine şuanda izin vermiyor.
 
@@ -33,9 +26,12 @@ source setup.sh
 Güncelleme:
 ```bash
 cd ~
+cp RaspberryPIYapayZeka/piconfig.py /tmp
 sudo rm -rf RaspberryPIYapayZeka
 sudo git clone https://github.com/byTheInK/RaspberryPIYapayZeka.git
 cd RaspberryPIYapayZeka
+cp /tmp/piconfig.py piconfig.py
+rm -f /tmp/piconfig.py
 source setup.sh
 ```
 
@@ -68,9 +64,11 @@ cd RaspberryPIYapayZeka
 Güncelleme:
 ```bash
 cd $env:APPDATA
+Copy-Item ".\RaspberryPIYapayZeka\config.py $env:TEMP"
 rm -Force ".\RaspberryPIYapayZeka"
 git clone https://github.com/byTheInK/RaspberryPIYapayZeka.git
 cd RaspberryPIYapayZeka
+Copy-Item "$env:TEMP\config.py" .
 .\setup.ps1
 ```
 
