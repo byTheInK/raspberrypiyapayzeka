@@ -40,6 +40,5 @@ class voice():
         amplified_recording = np_clip(recording * volume, -1, 1)
         output_path = os.path.join("SOUNDS", "tts.wav")
         wv.write(output_path, amplified_recording, freq, sampwidth=2)
-        print(f"Recording saved to {output_path}")
 
         return output_path

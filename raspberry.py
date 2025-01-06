@@ -17,13 +17,16 @@ with open("API", "r") as file:
 
 textEngine = AI.text(GROQ_API_KEY, "memory.json", SABIT_DEGERLER, HAFIZAYI_AKILDA_TUTMA_SINIRI)
 voiceEngine = voice(GROQ_API_KEY)
-print("OS =", "Windows" if WINDOWS else "Linux: {}".format(distro.name()))
+print("İşletim Sistemi =", "Windows" if WINDOWS else "Linux: {}".format(distro.name()))
 
 def kill_vlc():
-    if WINDOWS:
-        run(["taskkill", "/F", "/IM", "vlc.exe"], check=True, stderr=DEVNULL)
-    else:
-        run(["pkill", "vlc"], check=True, stderr=DEVNULL)
+    try:
+        if WINDOWS:
+            run(["taskkill", "/F", "/IM", "vlc.exe"], check=True, stderr=DEVNULL)
+        else:
+            run(["pkill", "vlc"], check=True, stderr=DEVNULL),
+    except CalledProcessError:
+        print("VLC kapatılamadı. Muhtemelen zaten kapalı.")
 
 def mainVoice():
     if BASLANGICTA_HAFIZAYI_SIL:

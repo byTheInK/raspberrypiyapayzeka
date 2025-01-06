@@ -1,4 +1,5 @@
-Venv\
+Venv/
+SOUNDS/tts.mp3
 venv/
 API
 *.pyc
